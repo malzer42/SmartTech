@@ -13,27 +13,21 @@ Library::Library(){
     try{
         std::cout << "\nConstructor of a Library\n";
         if(!subs_.empty()){
-            for(unsigned int i =0; i < subs_.size(); i++){
-                subs_[i] = nullptr;
-            }
+            for(auto& sub : subs_) sub = nullptr;
         }
         else{
             std::cout << "No subscriber in the list of subscribers\n";
         }
         
         if(!books_.empty()){
-            for(unsigned int i = 0; i < books_.size(); i++){
-                books_[i] = nullptr;
-            }            
+            for(auto& book : books_) book = nullptr;
         }
         else{
             std::cout << "No book in the list of books\n";            
         }
         
         if(!borrows_.empty()){
-            for(unsigned int i = 0; i < borrows_.size(); i++){
-                borrows_[i] = nullptr;
-            }             
+            for(auto& borrow : borrows_) borrow = nullptr;
         }
         else{
             std::cout << "No borrow in the list of borrows\n";            
@@ -182,7 +176,6 @@ void Library::removeBorrow(std::shared_ptr<Borrow>& borrow){
                 borrows_[i]->getBook()->getQuote() == borrow->getBook()->getQuote() ){
             borrows_[i] = borrows_[borrows_.size() - 1];
             borrows_.pop_back();
-            //borrows_[i]->getBook()->setNAvailables(borrows_[i]->getBook()->getNAvailables() + 1);
             break;
         }
     }    
@@ -237,7 +230,6 @@ void Library::searchQuote(const std::string &quote){
             std::cout << "!!! Could not find a book with Quote: " << quote << "!!!\n";
         }
     }    
-    //std::cout << "Leaving the search of quote\n";
 }
 
 
@@ -257,8 +249,6 @@ void Library::searchQuote(const std::string &quote){
  * @return 
  */
 bool Library::borrowBookBySubscriber(const std::string &idNumber, const std::string &quote, const std::string& returnDate){
-    //std::cout << "\nProcessing borrowBook...: \n"
-    //        << "nSubs_: " << subs_.size() << ", nBooks_ " << books_.size() << ", nBorrows_: " << borrows_.size() << '\n';
     const unsigned short MAX_BORROW_ALLOWED = 2;
     bool isSuccessful = false;
     bool isBookAvailable = false;
@@ -269,21 +259,16 @@ bool Library::borrowBookBySubscriber(const std::string &idNumber, const std::str
     unsigned short iBook = 0;
     
     if(borrows_.empty()){
-        //std::cout << "Checking condition 1 (Book available). nBorrows_: " << borrows_.size() << '\n';
         // Check condition 1.
         for(unsigned short i = 0; i < books_.size(); i++){
             if(books_[i]->getQuote() == quote){
-                //std::cout << "Number of books available: " << books_[i]->getNAvailables() << '\n';
                 isBookAvailable = ((books_[i]->getNAvailables() > 0) ? true : isBookAvailable);
                 iBook = i;
                 break;
             }
         }
         
-        //std::cout << "iBook " << iBook << ", isBookAvailable: " << isBookAvailable << '\n';
-        
         // Check condition 2.
-        //std::cout << "Checking condition 2 (Age). nBorrows_: " << borrows_.size() << '\n';
         for(unsigned short j = 0; j < subs_.size(); j++){
             if(subs_[j]->getIdNumber() == idNumber){
                 //std::cout << "Subscriber age: " << subs_[j]->getAge() << '\n';
@@ -295,12 +280,8 @@ bool Library::borrowBookBySubscriber(const std::string &idNumber, const std::str
             }
         }
         
-        //std::cout << "iSub: " << iSub << ", isSubOldToReadTheBook: " << isSubOldToReadTheBook << '\n';
-        
         // Condition 1 and 2  
         condition_one_and_two = isBookAvailable && isSubOldToReadTheBook;
-        
-        //std::cout << "Conditions 1 (Book Available) and 2 (Age). condition_one_and_two : " << condition_one_and_two << '\n';
         
         /**
          * nBorrows_ == 0
@@ -308,9 +289,7 @@ bool Library::borrowBookBySubscriber(const std::string &idNumber, const std::str
          * We do not check condition 4
          */
         if(condition_one_and_two){
-            //Borrow borrow(subs_[iSub], books_[iBook], returnDate);
-            //addBorrow(borrow);
-            std::shared_ptr<Borrow> borrow = std::make_unique<Borrow>(subs_[iSub], books_[iBook], returnDate);
+            std::shared_ptr<Borrow> borrow = std::make_shared<Borrow>(subs_[iSub], books_[iBook], returnDate);
             
             borrows_.push_back(borrow); // = &*borrow; //Borrow(subs_[iSub], books_[iBook], returnDate);
             borrows_[borrows_.size() - 1 ]->print();
@@ -319,7 +298,6 @@ bool Library::borrowBookBySubscriber(const std::string &idNumber, const std::str
         }
     }
     else if(borrows_.size() > 0){
-        //std::cout << "Checking condition 3 (has already borrowed the Book). nBorrows_: " << borrows_.size() << '\n';
         unsigned short counterSub = 0;
         bool hasBorrowedTheBook = false;
         
@@ -329,8 +307,6 @@ bool Library::borrowBookBySubscriber(const std::string &idNumber, const std::str
                 hasBorrowedTheBook = ( ( borrows_[k]->getBook()->getQuote() == quote ) ? true : false);
             }
         }
-        
-        //std::cout << "counterSub: " << counterSub << ", hasBorrowedTheBook: " << hasBorrowedTheBook << '\n';
         
         // Check condition 1.
         for(unsigned short i = 0; i < books_.size(); i++){
@@ -353,17 +329,12 @@ bool Library::borrowBookBySubscriber(const std::string &idNumber, const std::str
         // Condition 1 and 2  
         condition_one_and_two = isBookAvailable && isSubOldToReadTheBook;
         
-        //std::cout << "Conditions 1 (Book Available) and 2 (Age). condition_one_and_two : " << condition_one_and_two << '\n';
-        
         if((!hasBorrowedTheBook && counterSub < MAX_BORROW_ALLOWED) && condition_one_and_two ){
-            //Borrow borrow(subs_[iSub], books_[iBook], returnDate);
-            //addBorrow(borrow);
-            std::shared_ptr<Borrow> borrow = std::make_unique<Borrow>(subs_[iSub], books_[iBook], returnDate);
+            std::shared_ptr<Borrow> borrow = std::make_shared<Borrow>(subs_[iSub], books_[iBook], returnDate);
             borrows_.push_back(borrow); //[nBorrows_++] = &*borrow; //Borrow(subs_[iSub], books_[iBook], returnDate);
             books_[iBook]->setNAvailables( books_[iBook]->getNAvailables() - 1 );
             isSuccessful = true;
         }       
-        
     }
     else{
         isSuccessful = false;        
@@ -386,9 +357,6 @@ bool Library::returnBook(const std::string &idNumber, const std::string &quote){
     for(unsigned short i = 0; i < borrows_.size(); i++){
         if(borrows_[i]->getSubscriber()->getIdNumber() == idNumber && borrows_[i]->getBook()->getQuote() == quote ){
             removeBorrow(borrows_[i]);
-            //borrows_[i] = borrows_[nBorrows_ -1];
-            //nBorrows_--;
-            //borrows_[i]->getBook()->setNAvailables(borrows_[i]->getBook()->getNAvailables() + 1);
             isBookReturned = true;
             break;
         }
@@ -400,7 +368,6 @@ bool Library::returnBook(const std::string &idNumber, const std::string &quote){
             break;
         }
     }
-    
     return isBookReturned;
 }
 
@@ -409,16 +376,16 @@ bool Library::returnBook(const std::string &idNumber, const std::string &quote){
  * @param subscriber_id
  */
 void Library::infoSubscriber(const std::string &idNumber) const{
-    for (unsigned short i = 0; i < borrows_.size(); i++) {
-        if (borrows_[i]->getSubscriber()->getIdNumber() == idNumber) {
-            borrows_[i]->getSubscriber()->print();
+    for(auto& borrow : borrows_){
+        if(borrow->getSubscriber()->getIdNumber() == idNumber){
+            borrow->getSubscriber()->print();
             break;
         }
     }
     
-    for (unsigned short i = 0; i < borrows_.size(); i++) {
-        if (borrows_[i]->getSubscriber()->getIdNumber() == idNumber) {
-            borrows_[i]->print();
+    for(auto& borrow : borrows_){
+        if(borrow->getSubscriber()->getIdNumber() == idNumber){
+            borrow->print();
         }
     }
 }

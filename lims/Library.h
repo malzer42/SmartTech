@@ -81,9 +81,6 @@ private:
      * @param borrow
      */
     void removeBorrow(std::shared_ptr<Borrow>& borrow);
-    
-    
-
 };
 
 #endif /* LIBRARY_H */

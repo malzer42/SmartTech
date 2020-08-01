@@ -46,7 +46,6 @@ const std::string& Borrow::getReturnDate() const{
 }
 
 // Setter methods
-
 /**
  * Set subscriber_ attribute
  * @param subscriber
@@ -98,7 +97,6 @@ Borrow::Borrow(Borrow&& orig)noexcept : subscriber_(nullptr), book_(nullptr), re
 }
 
 // Copy and Move assignments
-
 /**
  * Copy assignment operator
  * @param orig

@@ -1,8 +1,7 @@
 /** 
  * File:   Book.cpp
  * Author: Pierre Abraham Mulamba
- * 
- * Created on 29 June 2020, 22 h 18
+ * Created on 29 June 2020, 22:18
  */
 
 #include "Book.h"
@@ -15,7 +14,6 @@ Book::Book() {
     year_ = 0;
     minReaderAge_ = 0;
     nPossess_ = 0;
-    //nAvailables_ = nPossess_;
 }
 
 /**
@@ -32,8 +30,6 @@ Book::Book(const std::string& quote, const std::string& title, unsigned short ye
         nPossess_(nPossess)
 {
     setNAvailables(getNPossess());
-    //nAvailables_ = 0;
-    //nAvailables_ = getNPossess(); //nPossess_;    
 }
 
 // Getter methods
@@ -134,8 +130,6 @@ void Book::setNAvailables(unsigned int nAvailables){
     nAvailables_ = nAvailables;
 }
 
-
-
 // Copy and Move constructors
 /**
  * Copy constructor
@@ -190,7 +184,6 @@ Book& Book::operator=(const Book& orig){
     return *this;    
 }
 
-
 /**
  * Move assignment operator
  * First, add a conditional statement that performs no operation if you try to assign the object to itself.
@@ -201,8 +194,7 @@ Book& Book::operator=(const Book& orig){
  * @return *this
  */
 Book& Book::operator=(Book&& orig)noexcept{
-    
-    
+        
     if(this != &orig){ // 1. Conditional statement that performs no operation if your try to assign the ob itself.
         // 2. Free any resources from the object that is being assigned to 
         quote_ = "";
@@ -234,6 +226,4 @@ Book& Book::operator=(Book&& orig)noexcept{
 
 void Book::print()const{
     std::cout << getQuote() <<". " << getTitle() <<". " << getYear()<<". " << getMinReaderAge() << " y.o.\n";
-    //std::cout << "n_p: " << getNPossess() << '\n';
-    //std::cout << "n_a: " << getNAvailables() << '\n';
 }

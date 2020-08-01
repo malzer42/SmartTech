@@ -1,7 +1,7 @@
 /**
  * File: Subscriber.cpp
  * Author: Pierre Abraham Mulamba
- * Created on 29 June 2020, 21 h 28
+ * Created on 29 June 2020, 21:28
  * Modified on 29 June 2020, 23:43
  */
 
