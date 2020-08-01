@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+ lims/.dep.inc
+ lims/build/
+ lims/dist/
+ lims/nbproject/
+
