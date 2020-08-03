@@ -271,9 +271,6 @@ bool Library::borrowBookBySubscriber(const std::string &idNumber, const std::str
         // Check condition 2.
         for(unsigned short j = 0; j < subs_.size(); j++){
             if(subs_[j]->getIdNumber() == idNumber){
-                //std::cout << "Subscriber age: " << subs_[j]->getAge() << '\n';
-                //std::cout << "Book reader age: " << books_[iBook]->getMinReaderAge() << '\n';
-                        
                 isSubOldToReadTheBook = ((subs_[j]->getAge() >= books_[iBook]->getMinReaderAge()) ? true : false );
                 iSub = j;
                 break;
@@ -301,10 +298,11 @@ bool Library::borrowBookBySubscriber(const std::string &idNumber, const std::str
         unsigned short counterSub = 0;
         bool hasBorrowedTheBook = false;
         
-        for(unsigned short k; k < borrows_.size(); k++){
-            if(borrows_[k]->getSubscriber()->getIdNumber()== idNumber){
+        
+        for(auto& borrow : borrows_){
+            if(borrow->getSubscriber()->getIdNumber() == idNumber){
                 counterSub++;
-                hasBorrowedTheBook = ( ( borrows_[k]->getBook()->getQuote() == quote ) ? true : false);
+                hasBorrowedTheBook = ((borrow->getBook()->getQuote() == quote) ? true : false);
             }
         }
         
@@ -376,6 +374,7 @@ bool Library::returnBook(const std::string &idNumber, const std::string &quote){
  * @param subscriber_id
  */
 void Library::infoSubscriber(const std::string &idNumber) const{
+    std::cout << "\nInformation on the Subscriber.\n";
     for(auto& borrow : borrows_){
         if(borrow->getSubscriber()->getIdNumber() == idNumber){
             borrow->getSubscriber()->print();

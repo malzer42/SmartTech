@@ -140,8 +140,8 @@ Borrow& Borrow::operator=(Borrow&& orig)noexcept{
  * Printing method
  */
 void Borrow::print()const{
-    std::cout << " #" << getSubscriber()->getIdNumber() 
-            << ". " << getBook()->getQuote() 
-            << ". " << getReturnDate() << ".\n";
+    std::cout << "Borrowing of the Subscriber #" << getSubscriber()->getIdNumber() 
+            << ". Book " << getBook()->getQuote() 
+            << ". Return date " << getReturnDate() << ".\n";
     
 }
