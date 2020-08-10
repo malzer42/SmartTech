@@ -31,8 +31,8 @@
 *.out
 *.app
 
- lims/.dep.inc
- lims/build/
- lims/dist/
- lims/nbproject/
+lims/.dep.inc
+lims/build/
+lims/dist/
+lims/nbproject/
 

@@ -23,7 +23,7 @@ int main(int argc, char** argvs) {
     try{
         const std::string version = "20180625 LTS";
         const std::string program = argvs[0];
-        std::string program1(program, 89, program.size());
+        std::string program1(program, 88, program.size());
         Title title(program1, version);
         
         std::cout << "\n\t\tLIBRARY MANAGEMENT INVENTORY SYSTEM.\n"
